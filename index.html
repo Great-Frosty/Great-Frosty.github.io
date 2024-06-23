@@ -61,5 +61,126 @@
         <p>Revolutionary Audio Plugins</p>
         <a href="mailto:contact@audioarcs.com">contact@audioarcs.com</a>
     </div>
+
+    <script>
+        function generateFavicons() {
+            const sizes = [16, 32, 180];
+            const img = new Image();
+            img.src = 'logo.png';
+            img.onload = function() {
+                const trimmedCanvas = trimImage(img);
+                const sizes = [16, 32, 180];
+                
+                sizes.forEach(size => {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = size;
+                    canvas.height = size;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(trimmedCanvas, 0, 0, size, size);
+                    const favicon = document.createElement('link');
+                    favicon.rel = size === 180 ? 'apple-touch-icon' : 'icon';
+                    favicon.sizes = `${size}x${size}`;
+                    favicon.href = canvas.toDataURL('image/png');
+                    document.head.appendChild(favicon);
+                });
+    
+                // Generate manifest file
+                const manifest = {
+                    name: "AUDIO ARCS",
+                    short_name: "AUDIO ARCS",
+                    icons: [
+                        {
+                            src: generateIcon(192),
+                            sizes: "192x192",
+                            type: "image/png"
+                        },
+                        {
+                            src: generateIcon(512),
+                            sizes: "512x512",
+                            type: "image/png"
+                        }
+                    ],
+                    theme_color: "#000000",
+                    background_color: "#000000",
+                    display: "standalone"
+                };
+    
+                const blob = new Blob([JSON.stringify(manifest)], {type: 'application/json'});
+                const manifestURL = URL.createObjectURL(blob);
+    
+                const manifestLink = document.createElement('link');
+                manifestLink.rel = 'manifest';
+                manifestLink.href = manifestURL;
+                document.head.appendChild(manifestLink);
+            }
+        }
+    
+        function generateIcon(size) {
+            const canvas = document.createElement('canvas');
+            canvas.width = size;
+            canvas.height = size;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, size, size);
+            return canvas.toDataURL('image/png');
+        }
+
+        function trimImage(img) {
+            const canvas = document.createElement('canvas');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0);
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const data = imageData.data;
+
+            let left = canvas.width, right = 0, top = canvas.height, bottom = 0;
+
+            const threshold = 100; // Adjust if needed
+
+            for (let y = 0; y < canvas.height; y++) {
+                for (let x = 0; x < canvas.width; x++) {
+                    const i = (y * canvas.width + x) * 4;
+                    if (data[i] > threshold || data[i+1] > threshold || data[i+2] > threshold) {
+                        left = Math.min(x, left);
+                        right = Math.max(x, right);
+                        top = Math.min(y, top);
+                        bottom = Math.max(y, bottom);
+                    }
+                }
+            }
+
+            // Add some padding
+            const padding = 2;
+            left = Math.max(0, left - padding);
+            top = Math.max(0, top - padding);
+            right = Math.min(canvas.width - 1, right + padding);
+            bottom = Math.min(canvas.height - 1, bottom + padding);
+
+            // Calculate dimensions
+            let width = right - left + 1;
+            let height = bottom - top + 1;
+
+            // Ensure square shape while maintaining aspect ratio
+            const size = Math.max(width, height);
+            const x = left - (size - width) / 2;
+            const y = top - (size - height) / 2;
+
+            const trimmedCanvas = document.createElement('canvas');
+            trimmedCanvas.width = size;
+            trimmedCanvas.height = size;
+            const trimmedCtx = trimmedCanvas.getContext('2d');
+            
+            // Fill with black background
+            trimmedCtx.fillStyle = 'black';
+            trimmedCtx.fillRect(0, 0, size, size);
+            
+            // Draw the logo centered
+            trimmedCtx.drawImage(canvas, x, y, size, size, 0, 0, size, size);
+
+            return trimmedCanvas;
+        }
+    
+        window.onload = generateFavicons;
+        </script>
 </body>
 </html>
