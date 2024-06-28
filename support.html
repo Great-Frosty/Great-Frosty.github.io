@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AUDIO ARCS - Support</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background-color: black;
+            color: #f0f0f0;
+            font-family: 'Roboto', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.5em;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        label {
+            font-weight: 500;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #444;
+            background-color: #111;
+            color: #f0f0f0;
+            border-radius: 5px;
+            font-family: 'Roboto', sans-serif;
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px 20px;
+            color: #f0f0f0;
+            border: 1px solid #f0f0f0;
+            background-color: transparent;
+            border-radius: 5px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            cursor: pointer;
+            transition: color 0.3s ease, border-color 0.3s ease;
+        }
+        button:hover:not(:disabled) {
+            color: #FFD700;
+            border-color: #FFD700;
+        }
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .back-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            color: #f0f0f0;
+            border: 1px solid #f0f0f0;
+            background-color: transparent;
+            border-radius: 5px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-block;
+            transition: color 0.3s ease, border-color 0.3s ease;
+        }
+        .back-button:hover {
+            color: #FFD700;
+            border-color: #FFD700;
+        }
+        .error-message {
+            color: #ff4444;
+            font-size: 0.9em;
+            margin-top: 5px;
+            display: none;
+        }
+        .success-message {
+            color: #4CAF50;
+            font-size: 1.1em;
+            margin-top: 20px;
+            text-align: center;
+            display: none;
+        }
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Contact Support</h1>
+        <form id="supportForm" action="https://formspree.io/f/mkgwwljd" method="POST">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            <div id="emailError" class="error-message">Please enter a valid email address.</div>
+
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" rows="5" required></textarea>
+
+            <button type="submit" id="submitButton">Send Message</button>
+        </form>
+        <div id="successMessage" class="success-message">Message sent! We'll get back to you soon!</div>
+        <a href="index.html" class="back-button">Back to Home</a>
+    </div>
+
+    <script>
+        const form = document.getElementById('supportForm');
+        const submitButton = document.getElementById('submitButton');
+        const emailInput = document.getElementById('email');
+        const nameInput = document.getElementById('name');
+        const messageInput = document.getElementById('message');
+        const emailError = document.getElementById('emailError');
+        const successMessage = document.getElementById('successMessage');
+
+        function validateEmail(email) {
+            const re = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+            return re.test(email.toLowerCase());
+        }
+
+        function validateForm() {
+            const isNameValid = nameInput.value.trim() !== '';
+            const isEmailValid = validateEmail(emailInput.value);
+            const isMessageValid = messageInput.value.trim() !== '';
+
+            submitButton.disabled = !(isNameValid && isEmailValid && isMessageValid);
+
+            if (emailInput.value.trim() !== '') {
+                emailError.style.display = isEmailValid ? 'none' : 'block';
+            } else {
+                emailError.style.display = 'none';
+            }
+        }
+
+        nameInput.addEventListener('input', validateForm);
+        emailInput.addEventListener('input', validateForm);
+        messageInput.addEventListener('input', validateForm);
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (!validateEmail(emailInput.value)) {
+                emailError.style.display = 'block';
+                emailInput.focus();
+                return;
+            }
+
+            var formData = new FormData(form);
+            var xhr = new XMLHttpRequest();
+            xhr.open(form.method, form.action, true);
+            xhr.setRequestHeader('Accept', 'application/json');
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState !== XMLHttpRequest.DONE) return;
+                if (xhr.status === 200) {
+                    form.reset();
+                    successMessage.style.display = 'block';
+                    setTimeout(() => {
+                        successMessage.style.display = 'none';
+                    }, 10000); // Hide success message after 10 seconds
+                } else {
+                    alert('Oops! There was a problem submitting your form');
+                }
+            };
+            xhr.send(formData);
+        });
+    </script>
+</body>
+</html>
