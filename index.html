@@ -11,15 +11,21 @@
             padding: 0;
             height: 100%;
             background-color: black;
-            color: #f0f0f0; /* Slightly less white */
+            color: #f0f0f0;
             font-family: 'Roboto', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
+            /* background-image: url('background.png'); */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
         }
         .container {
             text-align: center;
             padding: 20px;
+            justify-content: center;
+            align-items: center;
         }
         img {
             max-width: 100%;
@@ -34,32 +40,31 @@
             margin-bottom: 10px;
             text-transform: uppercase;
         }
-        p {
-            font-size: 1.4em; /* Slightly bigger */
-            font-weight: 500; /* Bolder */
-            margin-bottom: 20px;
-        }
         a {
-            color: #FFD700;
+            font-family: 'Roboto', sans-serif;
+            color: #898988;
             text-decoration: none;
+            margin-top: 5px;
             transition: color 0.3s ease;
+            font-size: 1.2em;
+            font-weight: 200;
         }
         a:hover {
-            color: #FFA500;
+            color: #FFD700;
         }
         .support-button {
             position: absolute;
             top: 20px;
             right: 20px;
             padding: 10px 20px;
-            color: #f0f0f0;
-            border: 1px solid #f0f0f0;
+            color: #898988;
+            border: 1px solid #898988;
             border-radius: 5px;
             font-family: 'Helvetica', Arial, sans-serif;
-            font-weight: 700;
+            font-weight: 500;
             text-decoration: none;
             transition: color 0.3s ease, border-color 0.3s ease;
-            letter-spacing: 0.05em;  /* Subtle letter spacing */
+            letter-spacing: 0.05em;
             text-transform: uppercase; 
         }
         .support-button:hover {
@@ -70,18 +75,19 @@
             h1 {
                 font-size: 2em;
             }
-            p {
-                font-size: 1.2em; /* Adjusted for mobile */
+            .container {
+                padding: 10px;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <img src="logo.png" alt="AUDIO ARCS Logo" width="300" height="300">
-        <h1>AUDIO ARCS</h1>
-        <p>Revolutionary Audio Plugins</p>
-        <a href="mailto:contact@audioarcs.com">contact@audioarcs.com</a>
+        <img src="background.png" alt="AUDIO ARCS Logo" width="360" height="620">
+        <!-- <h1>AUDIO ARCS</h1> -->
+        <div class="text_body"></div>
+            <a href="mailto:contact@audioarcs.com">contact@audioarcs.com</a>
+        </div>
     </div>
 
     <script>
@@ -203,7 +209,7 @@
         }
     
         window.onload = generateFavicons;
-        </script>
+    </script>
 
     <a href="support.html" class="support-button">Support</a>
 </body>
