@@ -3,94 +3,191 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AUDIO ARCS - Revolutionary Audio Plugins</title>
+    <title>AUDIO ARCS - Sign Up</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
-    <style>
+     <style>
         body, html {
             margin: 0;
             padding: 0;
-            height: 100%;
+            min-height: 100vh;
             background-color: black;
             color: #f0f0f0;
-            font-family: 'Roboto', sans-serif;
+            font-family: Helvetica, Arial, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
-            /* background-image: url('background.png'); */
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
         }
         .container {
-            text-align: center;
+            width: 100%;
+            max-width: 480px;
             padding: 20px;
-            justify-content: center;
-            align-items: center;
-        }
-        img {
-            max-width: 100%;
-            height: auto;
+            box-sizing: border-box;
+            text-align: center;
         }
         h1 {
             font-family: Helvetica, Arial, sans-serif;
             font-size: 2.5em;
             font-weight: 700;
             letter-spacing: -0.01em;
-            margin-top: 20px;
-            margin-bottom: 10px;
+            margin-top: 0;
+            margin-bottom: 8px;
             text-transform: uppercase;
         }
-        a {
-            font-family: 'Roboto', sans-serif;
-            color: #898988;
-            text-decoration: none;
-            margin-top: 5px;
-            transition: color 0.3s ease;
-            font-size: 1.2em;
-            font-weight: 200;
+        .tagline {
+            color: #898989;
+            font-family: 'Roboto', Helvetica, Arial, sans-serif;
+            font-weight: 300;
+            font-size: 1em;
+            margin-bottom: 30px;
         }
-        a:hover {
-            color: #FFD700;
+        form {
+            display: flex;
+            gap: 10px;
+            align-items: stretch;
         }
-        .signup-button {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            padding: 10px 20px;
-            color: #898988;
-            border: 1px solid #898988;
+        input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 1px solid #333;
+            background-color: #111;
+            color: #f0f0f0;
             border-radius: 5px;
-            font-family: 'Helvetica', Arial, sans-serif;
-            font-weight: 500;
-            text-decoration: none;
-            transition: color 0.3s ease, border-color 0.3s ease;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
+            font-family: Helvetica, Arial, sans-serif;
+            font-size: 1em;
+            box-sizing: border-box;
+            outline: none;
+            transition: border-color 0.3s ease;
         }
-        .signup-button:hover {
-            color: #FFD700;
+        input:focus {
+            border-color: #666;
+        }
+        input::placeholder {
+            color: #555;
+        }
+        button {
+            padding: 12px 24px;
+            color: #f0f0f0;
+            border: 1px solid #f0f0f0;
+            background-color: transparent;
+            border-radius: 5px;
+            font-family: Helvetica, Arial, sans-serif;
+            font-weight: 700;
+            font-size: 0.85em;
+            cursor: pointer;
+            transition: color 0.3s ease, border-color 0.3s ease, background-color 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            white-space: nowrap;
+        }
+        button:hover:not(:disabled) {
+            color: #000;
+            background-color: #FFD700;
             border-color: #FFD700;
         }
-        @media (max-width: 600px) {
+        button:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+        .error-message {
+            color: #ff4444;
+            font-size: 0.85em;
+            margin-top: 8px;
+            text-align: left;
+            display: none;
+        }
+        .success-message {
+            color: #FFD700;
+            font-size: 1.1em;
+            font-weight: 500;
+            display: none;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 30px;
+            color: #444;
+            font-family: 'Roboto', Helvetica, Arial, sans-serif;
+            font-weight: 300;
+            font-size: 0.85em;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .back-link:hover {
+            color: #898989;
+        }
+        @media (max-width: 480px) {
             h1 {
                 font-size: 2em;
             }
-            .container {
-                padding: 10px;
+            form {
+                flex-direction: column;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <img src="background.png" alt="AUDIO ARCS Logo" width="360" height="620">
-        <!-- <h1>AUDIO ARCS</h1> -->
-        <!-- <div class="text_body"></div>
-            <a href="mailto:contact@audioarcs.com">contact@audioarcs.com</a>
-        </div> -->
+        <h1>Sign Up</h1>
+        <p class="tagline">Be the first to know when we launch.</p>
+        <form id="signupForm" action="https://script.google.com/macros/s/AKfycbx2rw4niArkEpZierrvvY9EnFg3Pf9mYFl2i68B3_NLZI8RZqykj_d8I_QnxyfkQ9xT/exec" method="POST">
+            <input type="email" id="email" name="email" placeholder="you@example.com" required>
+            <button type="submit" id="submitButton" disabled>Sign Up</button>
+        </form>
+        <div id="emailError" class="error-message">Please enter a valid email address.</div>
+        <div id="successMessage" class="success-message">You're signed up! We'll keep you posted.</div>
+        <a href="index.html" class="back-link">back to home</a>
     </div>
 
     <script>
+        const form = document.getElementById('signupForm');
+        const submitButton = document.getElementById('submitButton');
+        const emailInput = document.getElementById('email');
+        const emailError = document.getElementById('emailError');
+        const successMessage = document.getElementById('successMessage');
+
+        function validateEmail(email) {
+            const re = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+            return re.test(email.toLowerCase());
+        }
+
+        function validateForm() {
+            const isEmailValid = validateEmail(emailInput.value);
+            submitButton.disabled = !isEmailValid;
+
+            if (emailInput.value.trim() !== '') {
+                emailError.style.display = isEmailValid ? 'none' : 'block';
+            } else {
+                emailError.style.display = 'none';
+            }
+        }
+
+        emailInput.addEventListener('input', validateForm);
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (!validateEmail(emailInput.value)) {
+                emailError.style.display = 'block';
+                emailInput.focus();
+                return;
+            }
+
+            submitButton.disabled = true;
+            submitButton.textContent = '...';
+
+            fetch(form.action, {
+                method: 'POST',
+                body: new FormData(form),
+                mode: 'no-cors'
+            }).then(function() {
+                form.reset();
+                form.style.display = 'none';
+                successMessage.style.display = 'block';
+            }).catch(function() {
+                alert('Oops! There was a problem. Please try again.');
+                submitButton.disabled = false;
+                submitButton.textContent = 'Sign Up';
+            });
+        });
+
         function generateFavicons() {
             const sizes = [16, 32, 180];
             const img = new Image();
@@ -98,7 +195,7 @@
             img.onload = function() {
                 const trimmedCanvas = trimImage(img);
                 const sizes = [16, 32, 180];
-                
+
                 sizes.forEach(size => {
                     const canvas = document.createElement('canvas');
                     canvas.width = size;
@@ -111,8 +208,7 @@
                     favicon.href = canvas.toDataURL('image/png');
                     document.head.appendChild(favicon);
                 });
-    
-                // Generate manifest file
+
                 const manifest = {
                     name: "AUDIO ARCS",
                     short_name: "AUDIO ARCS",
@@ -132,17 +228,17 @@
                     background_color: "#000000",
                     display: "standalone"
                 };
-    
+
                 const blob = new Blob([JSON.stringify(manifest)], {type: 'application/json'});
                 const manifestURL = URL.createObjectURL(blob);
-    
+
                 const manifestLink = document.createElement('link');
                 manifestLink.rel = 'manifest';
                 manifestLink.href = manifestURL;
                 document.head.appendChild(manifestLink);
             }
         }
-    
+
         function generateIcon(size) {
             const canvas = document.createElement('canvas');
             canvas.width = size;
@@ -163,7 +259,7 @@
 
             let left = canvas.width, right = 0, top = canvas.height, bottom = 0;
 
-            const threshold = 100; // Adjust if needed
+            const threshold = 100;
 
             for (let y = 0; y < canvas.height; y++) {
                 for (let x = 0; x < canvas.width; x++) {
@@ -177,18 +273,15 @@
                 }
             }
 
-            // Add some padding
             const padding = 2;
             left = Math.max(0, left - padding);
             top = Math.max(0, top - padding);
             right = Math.min(canvas.width - 1, right + padding);
             bottom = Math.min(canvas.height - 1, bottom + padding);
 
-            // Calculate dimensions
             let width = right - left + 1;
             let height = bottom - top + 1;
 
-            // Ensure square shape while maintaining aspect ratio
             const size = Math.max(width, height);
             const x = left - (size - width) / 2;
             const y = top - (size - height) / 2;
@@ -197,20 +290,17 @@
             trimmedCanvas.width = size;
             trimmedCanvas.height = size;
             const trimmedCtx = trimmedCanvas.getContext('2d');
-            
-            // Fill with black background
+
             trimmedCtx.fillStyle = 'black';
             trimmedCtx.fillRect(0, 0, size, size);
-            
-            // Draw the logo centered
+
             trimmedCtx.drawImage(canvas, x, y, size, size, 0, 0, size, size);
 
             return trimmedCanvas;
         }
-    
-        window.onload = generateFavicons;
-    </script>
 
-    <a href="signup.html" class="signup-button">Sign Up</a>
+        window.onload = generateFavicons;
+
+    </script>
 </body>
 </html>
